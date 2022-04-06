@@ -27,7 +27,7 @@ export default {
             {
                 slug: 'originals',
                 title: 'Originais do Netflix',
-                items: await basicaFetch(`/discover/tv?with_network=213&language=pt-BR&api_key=${API_KEY}`)
+                items: await basicaFetch(`/discover/tv?with_networks=213&language=pt-BR&api_key=${API_KEY}`)
             },
             {
                 slug: 'trending',
@@ -65,6 +65,24 @@ export default {
                 items: await basicaFetch(`/discover/movie?with_genres=99&language=pt-Br&api_key=${API_KEY}`)
             }
         ];
-    }
+    },
 
+    getMovieInfo: async (movieId, type) => {
+        let info = {};
+
+        if (movieId) {
+            switch (type) {
+                case 'movie':
+                    info = await basicaFetch(`/movie/${movieId}?language=pt-BR&api_key=${API_KEY}`);
+                    break;
+                case 'tv':
+                    info = await basicaFetch(`/tv/${movieId}?language=pt-BR&api_key=${API_KEY}`);
+                    break;
+                default:
+                    info = null;
+            }
+        }
+
+        return info;
+    }
 }
